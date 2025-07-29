@@ -1,0 +1,238 @@
+# Finance Tracker - Full-Stack Accounting App
+
+A comprehensive finance tracking application built as a monorepo with React frontend, Express.js backend, and AI-powered premium features.
+
+## Features
+
+### Core Features
+- **User Authentication**: JWT-based auth with email/password
+- **Transaction Management**: Add, edit, delete income/expense transactions
+- **Budget Tracking**: Set monthly budgets with overspending alerts
+- **Recurring Transactions**: Automated recurring transaction management
+- **Calendar View**: Daily spending visualization with heatmap
+- **Reports & Analytics**: Charts and insights using Chart.js
+
+### AI-Powered Premium Features (Stripe Subscription)
+- **AI Receipt Scanner**: Extract transaction details from receipt photos
+- **Auto-Categorization**: AI-powered transaction categorization
+- **Predictive Budgeting**: ML-based spending forecasts
+
+### PWA Support
+- Installable on Android devices
+- Offline functionality
+- Native app-like experience
+
+## Tech Stack
+
+- **Frontend**: React + Vite + TailwindCSS + React Router
+- **Backend**: Express.js + SQLite + Sequelize ORM
+- **Authentication**: JWT tokens
+- **Charts**: Chart.js + React-Chartjs-2
+- **Payments**: Stripe subscriptions
+- **AI**: OpenAI GPT-4 Vision
+- **Storage**: Cloudinary for images
+- **PWA**: Vite PWA plugin
+
+## Project Structure
+
+```
+finance-tracker/
+├── backend/
+│   ├── controllers/
+│   ├── models/
+│   ├── routes/
+│   ├── utils/
+│   ├── server.js
+│   └── package.json
+├── frontend/
+│   ├── public/
+│   ├── src/
+│   ├── index.html
+│   ├── vite.config.js
+│   └── package.json
+└── package.json
+```
+
+## Setup Instructions
+
+### 1. Install Dependencies
+
+```bash
+# Install root dependencies
+npm install
+
+# Install all dependencies (backend + frontend)
+npm run install:all
+```
+
+### 2. Environment Variables
+
+Create `backend/.env` file:
+
+```env
+NODE_ENV=development
+PORT=3001
+JWT_SECRET=your-super-secret-jwt-key-here
+FRONTEND_URL=http://localhost:5173
+
+# Database
+DATABASE_URL=./database.sqlite
+
+# Stripe
+STRIPE_SECRET_KEY=sk_test_your_stripe_secret_key
+STRIPE_PREMIUM_MONTHLY_PRICE_ID=price_your_price_id
+
+# OpenAI
+OPENAI_API_KEY=sk-your-openai-api-key
+
+# Cloudinary
+CLOUDINARY_CLOUD_NAME=your-cloud-name
+CLOUDINARY_API_KEY=your-api-key
+CLOUDINARY_API_SECRET=your-api-secret
+```
+
+### 3. Development
+
+```bash
+# Run both backend and frontend
+npm run dev
+
+# Or run separately
+npm run dev:backend
+npm run dev:frontend
+```
+
+### 4. Build for Production
+
+```bash
+# Build both backend and frontend
+npm run build
+
+# Build separately
+npm run build:backend
+npm run build:frontend
+```
+
+## Deployment
+
+### Backend (Render.com)
+
+1. Connect your GitHub repository to Render
+2. Create a new Web Service
+3. Set build command: `npm run build:backend`
+4. Set start command: `npm start`
+5. Add environment variables from `.env`
+
+### Frontend (Vercel)
+
+1. Connect your GitHub repository to Vercel
+2. Set root directory to `frontend`
+3. Build command: `npm run build`
+4. Output directory: `dist`
+5. Install command: `npm install`
+
+### PWA Installation
+
+1. Open the app in Chrome on Android
+2. Tap the menu (three dots)
+3. Select "Add to Home Screen"
+4. The app will install as a native-like PWA
+
+## API Endpoints
+
+### Authentication
+- `POST /api/auth/register` - User registration
+- `POST /api/auth/login` - User login
+- `GET /api/auth/profile` - Get user profile
+
+### Transactions
+- `GET /api/transactions` - Get transactions (with filters)
+- `POST /api/transactions` - Create transaction
+- `PUT /api/transactions/:id` - Update transaction
+- `DELETE /api/transactions/:id` - Delete transaction
+- `GET /api/transactions/categories` - Get categories
+
+### Budgets
+- `GET /api/budgets` - Get budgets
+- `POST /api/budgets` - Create budget
+- `PUT /api/budgets/:id` - Update budget
+- `DELETE /api/budgets/:id` - Delete budget
+
+### Reports
+- `GET /api/reports/dashboard` - Dashboard summary
+- `GET /api/reports/spending-by-category` - Category breakdown
+- `GET /api/reports/monthly-trends` - Monthly trends
+- `GET /api/reports/calendar` - Calendar data
+
+### AI Features (Premium)
+- `POST /api/ai/scan-receipt` - Scan receipt with AI
+- `POST /api/ai/categorize-transaction` - Auto-categorize
+- `GET /api/ai/predict-budget` - Predictive budgeting
+
+### Subscriptions
+- `POST /api/subscriptions/create` - Create subscription
+- `GET /api/subscriptions/status` - Get subscription status
+- `POST /api/subscriptions/cancel` - Cancel subscription
+
+## Database Schema
+
+### Users
+- id (UUID, Primary Key)
+- email (String, Unique)
+- password (String, Hashed)
+- firstName (String)
+- lastName (String)
+- currency (String, Default: 'USD')
+- isPremium (Boolean, Default: false)
+
+### Transactions
+- id (UUID, Primary Key)
+- userId (UUID, Foreign Key)
+- amount (Decimal)
+- type (Enum: 'income', 'expense')
+- category (String)
+- description (String)
+- date (Date)
+- isRecurring (Boolean)
+- receiptUrl (String)
+
+### Budgets
+- id (UUID, Primary Key)
+- userId (UUID, Foreign Key)
+- category (String)
+- amount (Decimal)
+- month (Integer)
+- year (Integer)
+
+### RecurringTransactions
+- id (UUID, Primary Key)
+- userId (UUID, Foreign Key)
+- amount (Decimal)
+- type (Enum: 'income', 'expense')
+- category (String)
+- description (String)
+- frequency (Enum: 'weekly', 'monthly')
+- startDate (Date)
+- nextOccurrence (Date)
+- isActive (Boolean)
+
+### Subscriptions
+- id (UUID, Primary Key)
+- userId (UUID, Foreign Key)
+- stripeCustomerId (String)
+- stripeSubscriptionId (String)
+- status (Enum: 'active', 'cancelled', 'past_due', 'unpaid')
+- currentPeriodStart (Date)
+- currentPeriodEnd (Date)
+
+## Contributing
+
+1. Fork the repository
+2. Create a feature branch
+3. Make your changes
+4. Add tests if applicable
+5. Submit a pull request
+
+## License
+
+MIT License - see LICENSE file for details
