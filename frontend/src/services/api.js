@@ -2,7 +2,7 @@ import axios from 'axios'
 
 // Create axios instance with base configuration
 const api = axios.create({
-  baseURL: import.meta.env.VITE_API_URL || (import.meta.env.PROD ? 'https://finance-tracker-backend.onrender.com' : 'http://localhost:3001'),
+  baseURL: import.meta.env.VITE_API_URL || (import.meta.env.PROD ? 'https://finance-tracker-5e78.onrender.com' : 'http://localhost:3001'),
   timeout: 10000,
   headers: {
     'Content-Type': 'application/json',
