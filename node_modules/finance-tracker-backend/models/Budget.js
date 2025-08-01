@@ -43,12 +43,13 @@ module.exports = (sequelize) => {
       type: DataTypes.DATE,
       defaultValue: DataTypes.NOW
     }
-  });
-
-  // Ensure unique budget per category per month per user
-  Budget.addIndex({
-    unique: true,
-    fields: ['userId', 'category', 'month', 'year']
+  }, {
+    indexes: [
+      {
+        unique: true,
+        fields: ['userId', 'category', 'month', 'year']
+      }
+    ]
   });
 
   return Budget;
